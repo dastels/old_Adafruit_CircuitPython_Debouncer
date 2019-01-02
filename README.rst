@@ -13,7 +13,9 @@ Introduction
     :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_debouncer
     :alt: Build Status
 
-.. todo:: Describe what the library does.
+Debounces an arbitrary predicate function (typically created as a lambda) of 0 arguments.
+
+
 
 Dependencies
 =============

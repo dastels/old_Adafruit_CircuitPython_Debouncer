@@ -20,21 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Wait for a falling transition on the clock (signal 1)
+# When it's seen, display the values of signal 2-5
+# Denmonstrates debouncing a lambda predicate
+
 import time
 import board
-from digitalio import Pull
+from adafruit_crickit import crickit
 from adafruit_debouncer import Debouncer
 
-switch = Debouncer(board.D12, Pull.UP)
+ss = crickit.seesaw
+
+def make_criket_signal_debouncer(pin):
+    ss.pin_mode(pin, ss.INPUT_PULLUP)
+    return Debouncer(lambda : ss.digital_read(pin))
+
+# Two buttons are pullups, connect to ground to activate
+clock = make_criket_signal_debouncer(crickit.SIGNAL1)
+signal_2 = make_criket_signal_debouncer(crickit.SIGNAL2)
+signal_3 = make_criket_signal_debouncer(crickit.SIGNAL3)
+signal_4 = make_criket_signal_debouncer(crickit.SIGNAL4)
+signal_5 = make_criket_signal_debouncer(crickit.SIGNAL5)
 
 while True:
-    switch.update()
-    if switch.fell:
-        print('Just pressed')
-    if switch.rose:
-        print('Just released')
-    if switch.value:
-        print('not pressed')
-    else:
-        print('pressed')
+    clock.update()
+    signal_2.update()
+    signal_3.update()
+    signal_4.update()
+    signal_5.update()
+
+    if clock.fell:
+        print('%u %u %u %u' % (signal_2.value, signal_3.value, signal_4.value, signal_5.value))
+
     time.sleep(0.1)

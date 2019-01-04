@@ -24,7 +24,8 @@
 ====================================================
 
 Debounces an arbitrary predicate function (typically created as a lambda) of 0 arguments.
-Since a very common use is debouncing a digital input pin, the initializer accepts a pin number instead of a lambda.
+Since a very common use is debouncing a digital input pin, the initializer accepts a pin number
+ instead of a lambda.
 
 * Author(s): Dave Astels
 
@@ -64,14 +65,14 @@ class Debouncer(object):
         """
         self.state = 0x00
         if isinstance(pin_or_predicate, microcontroller.Pin):
-            p = digitalio.DigitalInOut(pin_or_predicate)
-            p.direction = digitalio.Direction.INPUT
+            pin = digitalio.DigitalInOut(pin_or_predicate)
+            pin.direction = digitalio.Direction.INPUT
             if mode is not None:
-                p.pull = mode
-            self.f = lambda : p.value
+                pin.pull = mode
+            self.function = lambda: pin.value
         else:
-            self.f = pin_or_predicate
-        if self.f():
+            self.function = pin_or_predicate
+        if self.function():
             self.__set_state(Debouncer.DEBOUNCED_STATE | Debouncer.UNSTABLE_STATE)
         self.previous_time = 0
         if interval is None:
@@ -97,10 +98,10 @@ class Debouncer(object):
 
 
     def update(self):
-        """Update the debouncer state. Must be called before using any of the properties below"""
+        """Update the debouncer state. MUST be called frequently"""
         now = time.monotonic()
         self.__unset_state(Debouncer.CHANGED_STATE)
-        current_state = self.f()
+        current_state = self.function()
         if current_state != self.__get_state(Debouncer.UNSTABLE_STATE):
             self.previous_time = now
             self.__toggle_state(Debouncer.UNSTABLE_STATE)

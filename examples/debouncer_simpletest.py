@@ -33,10 +33,10 @@ switch = Debouncer(board.D12, Pull.UP)
 while True:
     switch.update()
     if switch.fell:
-        print 'Just pressed'
+        print('Just pressed')
     if switch.rose:
-        print 'Just released'
+        print('Just released')
     if switch.value:
-        print 'not pressed'
+        print('not pressed')
     else:
-        print 'pressed'
+        print('pressed')

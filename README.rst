@@ -14,6 +14,7 @@ Introduction
     :alt: Build Status
 
 Debounces an arbitrary predicate function (typically created as a lambda) of 0 arguments.
+The constructor also accepts a digital pin as a convienence.
 
 
 

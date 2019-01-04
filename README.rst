@@ -30,7 +30,25 @@ This is easily achieved by downloading
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the examples folder and be included in docs/examples.rst.
+import time
+import board
+from digitalio import Pull
+from adafruit_debouncer import Debouncer
+
+switch = Debouncer(board.D12, Pull.UP)
+
+while True:
+    switch.update()
+    if switch.fell:
+        print('Just pressed')
+    if switch.rose:
+        print('Just released')
+    if switch.value:
+        print('not pressed')
+    else:
+        print('pressed')
+    time.sleep(0.1)
+
 
 Contributing
 ============

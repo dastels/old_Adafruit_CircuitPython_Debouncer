@@ -49,7 +49,6 @@ Usage Example
             print('not pressed')
         else:
             print('pressed')
-        time.sleep(0.1)
 
 
 Contributing

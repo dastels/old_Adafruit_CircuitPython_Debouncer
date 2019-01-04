@@ -33,7 +33,6 @@ Usage Example
 
 .. code-block:: python
 
-        import time
         import board
         from digitalio import Pull
         from adafruit_debouncer import Debouncer
